@@ -110,6 +110,11 @@ io.on('connection', (socket) => {
         }
     })
 
+    socket.on('finishQuiz', (room : string ,users : IUsersInfo[])=>{
+        const usersInfoString = JSON.stringify(users);
+        io.to(room).emit('userPosition', usersInfoString)
+    })
+
     socket.on('disconnect', () => {
         userMap.delete(socket.id);
     })
