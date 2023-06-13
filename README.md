@@ -17,3 +17,5 @@
 $ npm install 
 $ npm run start:dev
 ```
+
+*[Clique aqui para acessar a rota da api](https://educaquest-api.onrender.com)
