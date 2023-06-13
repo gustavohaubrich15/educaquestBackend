@@ -27,7 +27,6 @@ let adminCreatedRooms: { room: string, admin: string, started: boolean }[] = [];
 let userMap = new Map();
 
 io.on('connection', (socket) => {
-
     socket.on('createRoom', (room: string, callback: (response: IResponse) => void) => {
         adminCreatedRooms.push({ room: room, admin: socket.id, started: false })
         callback({ status: true, mensagem: `Administrador criou a sala: ${room}` })
