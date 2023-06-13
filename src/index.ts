@@ -1,4 +1,6 @@
 import {serverHttp} from './http'
 import './websocket'
 
-serverHttp.listen(5000)
+serverHttp.listen(process.env.PORT || 5000,()=>{
+    console.log('servidor rodando')
+})
