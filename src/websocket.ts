@@ -9,7 +9,7 @@ interface IUsersInfo {
     nome: string,
     numeroSala: number,
     color: string,
-    respostas: { resposta: number }[]
+    respostas: { resposta: number, tempoResposta: number }[]
     corretas?: number
 }
 
@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
             })
         }
         const questaoString = JSON.stringify(newQuestao);
-        io.to(room).emit('nextQuestion', questaoString, questaoAtiva)
+        io.to(room).emit('nextQuestion', questaoString, questaoAtiva, Date.now())
     })
 
     socket.on('showCorrect', (room: string, questao: IQuestao, callback: (response: IResponse) => void) => {
@@ -98,14 +98,14 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('answerQuestion', (room: string, resposta: string, questaoAtiva: string, callback: (response: IResponse) => void) => {
+    socket.on('answerQuestion', (room: string, resposta: string, questaoAtiva: string, tempoResposta: string, callback: (response: IResponse) => void) => {
         let admin = adminCreatedRooms.filter((adminRoom)=>{
             return adminRoom.room == room
         })
         if(admin.length > 0){
             let userInfo : IUsersInfo = userMap.get(socket.id);
             const usersInfoString = JSON.stringify(userInfo);
-            socket.to(admin[0].admin).emit("answerQuestionUser", usersInfoString , resposta, questaoAtiva);
+            socket.to(admin[0].admin).emit("answerQuestionUser", usersInfoString , resposta, questaoAtiva, tempoResposta);
         }
     })
 
